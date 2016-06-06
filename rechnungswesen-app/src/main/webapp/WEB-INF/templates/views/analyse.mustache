@@ -1,0 +1,134 @@
+<link rel="stylesheet" href="../../../stylesheets/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
+<script src="../../../js/jquery-jvectormap-2.0.3.min.js"></script>
+<script src="../../../js/jquery-jvectormap-world-mill.js"></script>
+<script type="text/javascript" src="../../../js/canvasjs.min.js"></script>
+
+<div class="topbar">
+    <div class="info-box" style="height: 120px; margin-top: 0px;">
+        <div style="float: left;">
+            <div style="float: left;">
+                <input type="text" class="inputField" name="start" id="material" style="
+    margin-left: 0px;
+    width: 150px;
+    float: left;
+" placeholder="Material"><br>
+                <input type="text" class="inputField" name="start" id="kunde" style="
+    margin-left: 0px;
+    width: 150px;
+    float: left;
+    margin-top: 0px;
+" placeholder="Kunde">
+            </div>
+
+            <div style="float: left;margin-left: 20px;">
+                <input type="text" class="inputField" name="start" id="land" style="
+    margin-left: 0px;
+    width: 150px;
+    float: left;
+" placeholder="Land"><br>
+                <input type="text" class="inputField" name="start" id="region" style="
+    margin-left: 0px;
+    width: 150px;
+    float: left;
+    margin-top: 0px;
+" placeholder="Region">
+            </div>
+
+            <div style="float: left;margin-left: 20px;">
+                <input type="text" class="inputField" name="start" id="werk" style="
+    margin-left: 0px;
+    width: 150px;
+    float: left;
+" placeholder="Werk"><br>
+                <input type="text" class="inputField" name="start" id="waehrung" style="
+    margin-left: 0px;
+    width: 150px;
+    float: left;
+    margin-top: 0px;
+" placeholder="Währung">
+            </div>
+        </div>
+
+        <div class="input-daterange input-group" id="datepicker" style="
+    margin-right: 20px;
+    float: right;
+    margin-top: 110px;
+">
+            <h1 style="
+    font-size: 20px;
+    margin-bottom: -10px;
+">Zeitraum</h1><input type="text" class="inputField" name="start" id="startdatum" value="16.06.2010" style="
+    margin-left: 0px;
+    width: 150px;
+">
+            <span style="margin-left: 20px; margin-right: 0px;"> - </span>
+            <input type="text" class="inputField" name="end" id="enddatum" value="16.06.2016" style="
+    width: 150px;
+">
+        </div>
+
+        <script>
+            $('.info-box').change(function() {
+                $.post("/analyse-daten/",
+                {
+                    material: $('#material').val(),
+                    kunde: $('#kunde').val(),
+                    land: $('#land').val(),
+                    region: $('#region').val(),
+                    werk: $('#werk').val(),
+                    waehrung: $('#waehrung').val(),
+                    startdatum: $('#startdatum').val(),
+                    enddatum: $('#enddatum').val()
+                },
+                function(data, status){
+                    $('#charts').html(data);
+                });
+
+                $.post("/analyse-karte/",
+                {
+                    material: $('#material').val(),
+                    kunde: $('#kunde').val(),
+                    land: $('#land').val(),
+                    region: $('#region').val(),
+                    werk: $('#werk').val(),
+                    waehrung: $('#waehrung').val(),
+                    startdatum: $('#startdatum').val(),
+                    enddatum: $('#enddatum').val()
+                },
+                function(data, status){
+                    $('#map').html(data);
+                });
+            });
+
+            $('.input-daterange').datepicker({
+                format: "dd.mm.yyyy",
+                endDate: "0d",
+                todayBtn: "linked",
+                language: "de",
+                todayHighlight: true,
+                disableTouchKeyboard: true
+            });
+        </script>
+
+    </div>
+    <div class="nav">
+        <a id="label1" class="label" onclick="showViewAnalyse(1)">PRODUKTANALYSE</a>
+        <a id="label2" class="label" onclick="showViewAnalyse(2)">GEOGRAPHISCHE ANALYSE</a>
+    </div>
+</div>
+
+<div id="viewAnalyse1" class="container">
+    <div class="header">
+        <h1>PRODUKTANALYSE</h1>
+    </div>
+    <div id="charts">
+    </div>
+</div>
+
+<div id="viewAnalyse2" class="container">
+    <div class="header">
+        <h1>GEOGRAPHISCHE ANALYSE</h1>
+    </div>
+    <div id="map">
+    </div>
+</div>

@@ -1,0 +1,48 @@
+<style>
+    table {
+        border-spacing: 0px;
+    }
+    tr {
+        cursor: pointer;
+    }
+    td {
+        padding: 10px;
+    }
+</style>
+<div style="overflow-y: scroll;">
+    <table id="ergebnisse" class="display" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>KNummer</th>
+            <th>Land</th>
+            <th>Name</th>
+            <th>Ort</th>
+            <th>PLZ</th>
+            <th>Region</th>
+            <th>Strasse</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#ergebnisse}}
+            <tr onclick="window.document.location='/kunde/{{ kundenNummer }}';">
+                <td>{{ kundenNummer }}</td>
+                <td>{{ land }}</td>
+                <td>{{ name }}</td>
+                <td>{{ ort }}</td>
+                <td>{{ plz }}</td>
+                <td>{{ region }}</td>
+                <td>{{ strasse }}</td>
+            </tr>
+        {{/ergebnisse}}
+        </tbody>
+    </table>
+    <script type="text/javascript">
+$(document).ready(function() {
+    $('#ergebnisse').DataTable({
+            "language": {
+                "url": "../../../js/de_DE.json"
+            }
+        });
+} );
+</script>
+</div>

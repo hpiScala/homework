@@ -1,0 +1,52 @@
+<div id="world-map" style="width: 100%; height: 550px"></div>
+<script>
+    var salesData = {};
+        {{#products}}
+        salesData["{{ code }}"] = "{{ intUmsatz }}";
+        {{/products}}
+    $(function(){
+        $('#world-map').vectorMap({
+            map: 'world_mill',
+            zoomOnScroll: false,
+            series: {
+                regions: [{
+                    values: salesData,
+                    scale: ['#C8EEFF', '#0071A4'],
+                    normalizeFunction: 'polynomial'
+                }]
+            },
+            onRegionTipShow: function(e, el, code){
+                if (salesData[code] === undefined) {
+                    salesData[code] = 0;
+                }
+                el.html(el.html()+' (Umsatz : ' + salesData[code] + '€)');
+            }});
+    });
+</script>
+<div>
+    <table id="analyse-karte1" class="display" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>Land</th>
+            <th>Umsatz</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#products}}
+            <tr>
+                <td>{{ land }}</td>
+                <td data-order="{{intUmsatz}}">{{ umsatz }} {{ waehrung }}</td>
+            </tr>
+        {{/products}}
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#analyse-karte1').DataTable({
+            "language": {
+                "url": "../../../js/de_DE.json"
+            }
+        });
+} );
+</script>

@@ -1,0 +1,333 @@
+<html lang="en">
+<meta charset="utf-8"/>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- jQuery library -->
+    <script src="../../../jquery.min.js"></script>
+
+    <link rel="stylesheet" href="../../../stylesheets/bootstrap-datepicker.standalone.min.css"/>
+    <link rel="stylesheet" href="../../../stylesheets/jquery.dataTables.min.css"/>
+    <script src="../../../js/jquery.dataTables.min.js"></script>
+    <script src="../../../js/bootstrap-datepicker.min.js"></script>
+    <script src="../../../js/bootstrap-datepicker.de.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="../../../js/bootstrap.min.js"></script>
+    <script src="../../../js/bootstrap.js"></script>
+
+
+    <link type="text/css" rel="stylesheet" href="../../../stylesheets/default.css">
+
+</head>
+<body>
+<div class="content">
+    <div class="sidebar">
+        <div class="profile">
+            <img src="../../../images/hpi.png" onclick="window.document.location='/';" >
+            <p>Rechnungswesen Web App</p>
+        </div>
+
+    <div class="dividerTopBottom">
+
+        <p id="einstellungen" onclick="window.document.location='/search/';" >KUNDEN</p>
+
+        <p id="einstellungen" onclick="window.document.location='/analyse/';" >ANALYSE</p>
+    </div>
+
+    <div class="dividerTop">
+
+        <p id="logout" onclick="window.document.location='/';">LOGOUT</p>
+    </div>
+</div>
+    <div class="main-view">{{{ body }}}</div>
+</div>
+
+<script type="text/javascript">
+    resetLabelAndView(1);
+    resetLabelAndView(2);
+    resetLabelAndView(3);
+    resetLabelAndView(4);
+    resetLabelAndView(5);
+
+
+    setLabelAndView(1);
+
+    function resetLabelAndView(number) {
+        document.getElementById("view".concat(number)).style.display = "none";
+        document.getElementById("label".concat(number)).className = "label";
+    }
+
+    function setLabelAndView(number) {
+        document.getElementById("view".concat(number)).style.display = "block";
+        document.getElementById("label".concat(number)).className = "label selected";
+        $('#world-map').vectorMap('get','mapObject').updateSize();
+    }
+
+    function showView(number) {
+        resetLabelAndView(1);
+        resetLabelAndView(2);
+        resetLabelAndView(3);
+        resetLabelAndView(4);
+        resetLabelAndView(5);
+
+        setLabelAndView(number);
+    }
+</script>
+
+<script type="text/javascript">
+    resetLabelAndViewAnalyse(1);
+    resetLabelAndViewAnalyse(2);
+    setLabelAndViewAnalyse(1);
+    function resetLabelAndViewAnalyse(number) {
+        document.getElementById("viewAnalyse".concat(number)).style.display = "none";
+        document.getElementById("label".concat(number)).className = "label";
+    }
+    function setLabelAndViewAnalyse(number) {
+        document.getElementById("viewAnalyse".concat(number)).style.display = "block";
+        document.getElementById("label".concat(number)).className = "label selected";
+        $('#world-map').vectorMap('get','mapObject').updateSize();
+    }
+    function showViewAnalyse(number) {
+        resetLabelAndViewAnalyse(1);
+        resetLabelAndViewAnalyse(2);
+        setLabelAndViewAnalyse(number);
+    }
+</script>
+
+{{#hana}}
+    <div id="hana" style="position: absolute; left: 50%; top: 0px; margin-left: -380px; width: 760px; height: 100%;">
+        <img src="../../../images/hana.png" id="hana-button" onclick="startButton(event);" style="height: 100px; width: 100px; position: absolute; bottom: 50px; left: 50%; margin-left: -50px; display: block; cursor: pointer;" />
+        <div id="siri-container" style="position: absolute; bottom: 0px;"></div>
+        <script src="../../../js/siriwave9.js"></script>
+        <div id="results" style="margin-top: 50px;">
+            <span id="final_span" class="final"></span>
+            <span id="interim_span" class="interim"></span>
+            <p>
+        </div>
+        <script>
+var siriWave = new SiriWave9({
+    container: document.getElementById('siri-container'),
+    width: 760,
+    height: 200
+});
+
+document.getElementById("siri-container").style.display = "none";
+document.getElementById("hana-button").style.display = "block";
+
+var final_transcript = '';
+var recognizing = false;
+var recognizing1 = false;
+var ignore_onend;
+if (!('webkitSpeechRecognition' in window)) {
+  upgrade();
+}
+else {
+  var audio_stop = new Audio('../../../sounds/hana_stop.mp3');
+  var audio_start = new Audio('../../../sounds/hana_start.mp3');
+
+  ////////// HEY HANA START //////////
+
+  var recognition1 = new webkitSpeechRecognition();
+  recognition1.continuous = true;
+  recognition1.interimResults = true;
+
+  recognition1.onresult = function(event) {
+    console.log("recognition1.onresult");
+
+    var interim_transcript = '';
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+
+      } else {
+        interim_transcript += event.results[i][0].transcript;
+      }
+    }
+
+    if (interim_transcript.indexOf("Hey Hanna") > -1) {
+        interim_transcript = '';
+        console.log("Hey Hanna recognized");
+        recognition1.stop();
+        recognizing1 = false;
+        if (!recognizing) startButton();
+    }
+  };
+
+  ////////// HEY HANA END //////////
+
+  window.onload = function () {
+    startButton1();
+  }
+
+  var recognition = new webkitSpeechRecognition();
+  recognition.continuous = false;
+  recognition.interimResults = true;
+
+  recognition.onstart = function() {
+    console.log("recognition.onstart");
+
+    audio_start.play();
+    $('.content').addClass('blurred');
+    $('#hana').show();
+    recognizing = true;
+
+    siriWave.start();
+    document.getElementById("siri-container").style.display = "block";
+    document.getElementById("hana-button").style.display = "none";
+  };
+
+  recognition.onerror = function(event) {
+    console.log("recognition.onerror");
+
+    audio_stop.play();
+    if (event.error == 'no-speech') {
+      ignore_onend = true;
+    }
+    if (event.error == 'audio-capture') {
+      ignore_onend = true;
+    }
+    if (event.error == 'not-allowed') {
+      ignore_onend = true;
+    }
+
+    siriWave.stop();
+    document.getElementById("siri-container").style.display = "none";
+    document.getElementById("hana-button").style.display = "block";
+
+    startButton1();
+  };
+
+  recognition.onend = function() {
+    console.log("recognition.onend");
+
+    audio_stop.play();
+    recognizing = false;
+    if (ignore_onend) {
+      return;
+    }
+    if (!final_transcript) {
+      return;
+    }
+    else {
+        console.log("Recognized: " + final_transcript);
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (xhttp.readyState == 4 && xhttp.status == 200) {
+            console.log(xhttp.responseText);
+            var response = xhttp.responseText.split('-DIV-');
+
+            var text = response[0];
+            var html = response[1];
+
+            final_span.innerHTML = final_span.innerHTML + "<p class='syn'>" + text + "</p>";
+
+            if (html != "") {
+                final_span.innerHTML = final_span.innerHTML + "<div id='html-extra'>" + html + "</div>";
+
+                 $("#html-extra").find("script").each(function(i) {
+                    eval($(this).text());
+                });
+            }
+
+            var msg = new SpeechSynthesisUtterance();
+            msg.text = text;
+            msg.lang = 'de-DE';
+
+            msg.onend = function() {
+              startButton1();
+            };
+
+            window.speechSynthesis.speak(msg);
+          }
+        };
+      xhttp.open("POST", "/hana-brain/", true);
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhttp.send("text=" + final_transcript);
+    }
+
+    siriWave.stop();
+    document.getElementById("siri-container").style.display = "none";
+    document.getElementById("hana-button").style.display = "block";
+  };
+
+  recognition.onresult = function(event) {
+    console.log("recognition.onresult");
+
+    var interim_transcript = '';
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+        final_transcript += event.results[i][0].transcript;
+        final_transcript = capitalize(final_transcript);
+        final_span.innerHTML = "<p class='rec'>" + linebreak(final_transcript) + "</p>";
+      } else {
+        interim_transcript += event.results[i][0].transcript;
+        final_span.innerHTML = "<p class='rec'>" + linebreak(interim_transcript) + "</p>";
+      }
+    }
+  };
+}
+
+function upgrade() {
+  start_button.style.visibility = 'hidden';
+}
+
+var two_line = /\n\n/g;
+var one_line = /\n/g;
+function linebreak(s) {
+  return s.replace(two_line, '<p></p>').replace(one_line, '<br>');
+}
+
+var first_char = /\S/;
+function capitalize(s) {
+  return s.replace(first_char, function(m) { return m.toUpperCase(); });
+}
+
+function startButton1(event) {
+  console.log("startButton1");
+
+  if (recognizing1) {
+    return;
+  }
+  recognition1.lang = 'de-DE';
+  recognition1.start();
+  recognizing1 = true;
+}
+
+function startButton(event) {
+  console.log("startButton");
+  if (recognizing) {
+    recognition.stop();
+    return;
+  }
+  final_transcript = '';
+  recognition.lang = 'de-DE';
+  recognition.start();
+  ignore_onend = false;
+  final_span.innerHTML = '';
+  interim_span.innerHTML = '';
+}
+
+$(document).keyup(function(e) {
+     if (e.keyCode == 27) { // escape key maps to keycode `27`
+        $('.content').removeClass('blurred');
+        $('#hana').hide();
+        if (recognizing) {
+            recognition.stop();
+        }
+
+        if (!recognizing1) {
+            startButton1();
+        }
+    }
+});
+
+$('#hana').hide();
+</script>
+    </div>
+{{/hana}}
+</body>
+</html>

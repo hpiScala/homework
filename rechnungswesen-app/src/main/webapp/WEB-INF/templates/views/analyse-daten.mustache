@@ -1,0 +1,92 @@
+<div id="chartContainer" style="height: 300px; width: 50%; float: left;"></div>
+<div id="chartContainer1" style="height: 300px; width: 50%;"></div>
+<script type="text/javascript">
+    var chart = new CanvasJS.Chart("chartContainer",
+                {
+                    animationEnabled: true,
+                    axisY: {
+                        title: "Umsatz in EUR"
+                    },
+                    legend: {
+                        verticalAlign: "bottom",
+                        horizontalAlign: "center"
+                    },
+                    theme: "theme2",
+                    data: [
+                        {
+                            type: "column",
+                            showInLegend: false,
+                            dataPoints: [
+                                {{#products}}
+                                    {  y: {{ intUmsatz }}, label: "{{ material }}"},
+                                {{/products}}
+                            ]
+                        }
+                    ]
+                    });
+        chart.render();
+        var chart1 = new CanvasJS.Chart("chartContainer1",
+                {
+                    animationEnabled: true,
+                    legend: {
+                        verticalAlign: "bottom",
+                        horizontalAlign: "center"
+                    },
+                    theme: "theme2",
+                    toolTip:{
+                        enabled: false
+                    },
+                    data: [
+                        {
+                            type: "pie",
+                            indexLabelFontFamily: "Garamond",
+                            indexLabelFontSize: 20,
+                            indexLabelFontWeight: "bold",
+                            startAngle:0,
+                            indexLabelFontColor: "MistyRose",
+                            indexLabelLineColor: "darkgrey",
+                            indexLabelPlacement: "inside",
+                            showInLegend: true,
+                            indexLabel: "#percent%",
+                            dataPoints: [
+                                {{#products}}
+                                    {  y: {{ intUmsatz }}, name: "{{ material }}"},
+                                {{/products }}
+                            ]
+                        }
+                    ]
+                });
+        chart1.render();
+</script>
+
+<div style="margin-top: 20px;">
+    <table id="analyse-daten" class="display" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>Material</th>
+            <th>Umsatz</th>
+            <th>Anteil</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {{#products }}
+            <tr>
+                <td>{{ material }}</td>
+                <td data-order="{{intUmsatz}}">{{ umsatz }} {{ waehrung }}</td>
+                <td>{{anteil}} %</td>
+            </tr>
+        {{/products }}
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#analyse-daten').DataTable({
+            "language": {
+                "url": "../../../js/de_DE.json"
+            }
+        });
+} );
+</script>

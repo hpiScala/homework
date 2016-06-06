@@ -1,0 +1,387 @@
+html {
+    margin:0;
+    padding:0;
+    height:100%;
+    overflow: hidden;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+}
+
+.content {
+    position: relative;
+    margin: 0 auto;
+    height: auto !important;
+    height: 100%;
+    min-height: 100%;
+    transition: 0.25s -webkit-filter linear;
+}
+
+.blurred {
+    filter: blur(5px) contrast(40%);
+    -webkit-filter: blur(5px) contrast(40%);
+    -moz-filter: blur(5px) contrast(40%);
+    -o-filter: blur(5px) contrast(40%);
+    -ms-filter: blur(5px) contrast(40%);
+}
+
+@font-face {
+  font-family: "San Francisco Display Thin";
+  font-style: normal;
+  font-weight: 400;
+  src: url(http://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.eot?#iefix) format("embedded-opentype"), url(http://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.woff2) format("woff2"), url(http://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.woff) format("woff"), url(http://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.ttf) format("truetype"), url("fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.svg#San Francisco Display Thin") format("svg")
+}
+
+@font-face {
+  font-family: "San Francisco Display Medium";
+  font-style: normal;
+  font-weight: 400;
+  src: url(http://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-medium-webfont.eot?#iefix) format("embedded-opentype"), url(http://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-medium-webfont.woff2) format("woff2"), url(http://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-medium-webfont.woff) format("woff"), url(http://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-medium-webfont.ttf) format("truetype"), url("fonts/sanfrancisco/sanfranciscodisplay-medium-webfont.svg#San Francisco Display Medium") format("svg")
+}
+
+#final_span {
+    font-size: 30px;
+    color: #fff;
+    font-family: "San Francisco Display Thin";
+}
+
+#final_span .rec {
+    font-family: "San Francisco Display Thin";
+    text-align: left;
+}
+
+#final_span .syn {
+    font-family: "San Francisco Display Medium";
+    text-align: right;
+}
+
+.sidebar {
+    width: 240px;
+    height: 100%;
+    background-color: rgb(54, 63, 83);
+    float: left;
+    box-shadow: inset -4px 0 10px -10px #000000;
+}
+
+.label {
+    font: normal 16px Helvetica, sans-serif;
+    color: rgb(141,151,167);
+    width: auto;
+    float: left;
+    margin-bottom: 0px;
+    margin-top: 11px;
+    padding-bottom: 18px;
+    margin-left: 60px;
+    cursor: pointer;
+}
+
+.dataTables_wrapper {
+    font: normal 17px Helvetica, sans-serif;
+    color: rgb(80, 83, 95);
+}
+
+.label:first-child {
+    margin-left: 0px;
+}
+
+.selected {
+    font: bold 16px Helvetica, sans-serif;
+    color: rgb(80, 83, 95);
+    border-bottom: 4px solid rgb(22, 165, 251);
+}
+
+
+.main-view {
+    height: 100%;
+    background-color: rgb(236, 242, 246);
+    margin-left: 240px;
+    overflow-y: scroll;
+}
+
+.profile {
+    height: 200px;
+    width: 100%;
+    border-bottom: 3px solid rgb(47, 57, 73);
+    float: left;
+}
+
+.profile img {
+    /* border-radius: 50%; */
+    width: 100px;
+    margin-left: 70px;
+    margin-top: 40px;
+}
+
+.profile p {
+    font: normal 17px Helvetica, sans-serif;
+    color: rgb(201, 208, 221);
+    margin-left: 45px;
+    width: 150px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.container {
+    background-color: #fff;
+    min-width: 700px;
+    margin-right: 60px;
+    margin-left: 60px;
+    margin-top: 60px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 2px rgb(174, 180, 183);
+    padding-bottom: 10px;
+    margin-bottom: 60px;
+}
+
+.header {
+    background-color: rgb(111, 126, 150);
+    height: 80px;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+.header h1 {
+    font: bold 16px Helvetica, sans-serif;
+    color: #fff;
+    width: auto;
+    float: left;
+    margin-bottom: 0px;
+    margin-left: 40px;
+    margin-top: 31px;
+}
+
+.nav {
+    height: 40px;
+    margin-top: 48px;
+    margin-left: 56px;
+}
+
+.topbar {
+    overflow: hidden;
+    height: 218px;
+    background-color: #fff;
+    box-shadow: 0px 0px 2px rgb(174, 180, 183);
+    z-index: 200;
+}
+
+.left-box {
+    height: 80px;
+    width: 80px;
+    border-right: 1.5px solid rgb(237, 238, 240);
+    float: left;
+}
+
+.right-box {
+    height: 80px;
+    width: 80px;
+    border-left: 1.5px solid rgb(237, 238, 240);
+    float: right;
+}
+
+.info-box {
+    height: 60px;
+    margin-top: 60px;
+    margin-left: 56px;
+}
+
+.info-box h1 {
+    font: normal 28px Helvetica, sans-serif;
+    color: rgb(80, 83, 95);
+    margin-bottom: 10px;
+}
+
+.info-box span {
+    font: normal 14px Helvetica, sans-serif;
+    color: rgb(80, 83, 95);
+    margin-top: 10px;
+}
+
+#dashboard{
+    font: bold 16px Helvetica, sans-serif;
+    color: rgb(160, 172, 191);
+    padding-left: 30px;
+    padding-top: 16px;
+    margin-top: 14px;
+    padding-bottom: 16px;
+    margin-bottom: 0px;
+    cursor: pointer;
+}
+#suchmaske {
+    font: bold 16px Helvetica, sans-serif;
+    color: #fff;
+    padding-left: 30px;
+    padding-top: 16px;
+    margin-top: 0px;
+    padding-bottom: 16px;
+    margin-bottom: 0px;
+    cursor: pointer;
+    border-left: 4px solid rgb(22, 164, 250);
+    background-color: rgb(43, 53, 67);
+}
+
+#einstellungen{
+    font: bold 16px Helvetica, sans-serif;
+    color: rgb(160, 172, 191);
+    padding-left: 30px;
+    padding-top: 16px;
+    margin-top: 0px;
+    padding-bottom: 16px;
+    margin-bottom: 0px;
+    cursor: pointer;
+}
+
+#logout{
+    font: bold 16px Helvetica, sans-serif;
+    color: rgb(160, 172, 191);
+    margin-left: 30px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.dividerTopBottom{
+    padding-bottom: 20px;
+    width: 100%;
+    border-bottom: 3px solid rgb(47, 57, 73);
+    border-top: 1.5px solid rgba(197, 193, 197, 0.05);
+    float: left;
+}
+
+.dividerTop{
+    width: 100%;
+    border-top: 1.5px solid rgba(197, 193, 197, 0.05);
+    float: left;
+}
+
+.canvasjs-chart-credit {
+    display: none !important;
+}
+
+#html-extra {
+    background-color: #fff;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.inputField {
+    margin-top: 20px;
+    outline: none;
+    font: normal 16px Helvetica, sans-serif;
+    color: rgb(80, 83, 95);
+    padding: 10px;
+    width: 260px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    -webkit-border-radius: 0px !important;
+    -moz-border-radius: 0px !important;
+    border-radius: 0px !important;
+    text-align: left;
+}
+
+.dataTables_wrapper input {
+    margin-top: 20px;
+    outline: none;
+    font: normal 16px Helvetica, sans-serif;
+    color: rgb(80, 83, 95);
+    padding: 10px;
+    width: 260px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    -webkit-border-radius: 0px !important;
+    -moz-border-radius: 0px !important;
+    border-radius: 0px !important;
+    text-align: left;
+    -webkit-appearance: textfield;
+}
+
+#hana .dataTables_filter {
+    display: none !important;
+}
+
+.secondInputField{
+    outline: none;
+    font: normal 16px Helvetica, sans-serif;
+    color: rgb(80, 83, 95);
+    padding: 10px;
+    width: 260px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.button{
+    outline: none;
+    font: bold 16px Helvetica, sans-serif;
+    color: #fff; padding: 10px;
+    border: none;
+    background-color: rgb(22, 165, 251);
+    width: 260px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+.inputFieldSeparation{
+    border-top: 1px solid rgb(244, 244, 244);
+    border-bottom: 1px solid rgb(204, 204, 204);
+}
+
+#mainSearchPage{
+    width: 300px;
+    height: 310px;
+    margin: 0 auto;
+    padding-top: 100px;
+    background-color: rgb(236, 242, 246);
+    border-radius: 3px;
+}
+
+#profeature{
+    width: 300px;
+    height: 310px;
+    margin: 0 auto;
+    padding-top: 100px;
+    background-color: rgb(236, 242, 246);
+    border-radius: 3px;
+}
+
+#social{
+    font: bold 16px Helvetica, sans-serif;
+    color: rgb(80, 83, 95);
+    width: 300px;
+}
+
+ul {
+    list-style-type: none;
+    font: normal 17px Helvetica, sans-serif;
+    color: rgb(80, 83, 95);
+}
+
+table {
+    font: normal 17px Helvetica, sans-serif;
+    color: rgb(80, 83, 95);
+    border-spacing: 5px;
+    width: 100%;
+}
+
+th {
+    text-align: left;
+}
+
+tr {
+    heigth: 30px;
+}
+
+table tr:nth-child(even) {
+    background-color: #eee;
+}
+table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+h4{
+    font: normal 17px Helvetica, sans-serif;
+    color: rgb(80, 83, 95)
+}

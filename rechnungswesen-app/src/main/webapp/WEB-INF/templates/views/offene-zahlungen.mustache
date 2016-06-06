@@ -1,0 +1,44 @@
+<h4> Offene Zahlungen in Höhe von: {{ rest }} <br></h4>
+
+<h4>Durchschnittliche Dauer bis zur Bezahlung: {{ wartezeit }}</h4>
+
+<table id="outstandingBills" class="display" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th>BKreis</th>
+        <th>Jahr</th>
+        <th>Belegnummer</th>
+        <th>Betrag</th>
+        <th>Werk</th>
+        <th>Material</th>
+        <th>Buchungsdatum</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {{#transactions}}
+        <tr>
+            <td>{{ buchungskreis }}</td>
+            <td>{{ geschaeftsjahr }}</td>
+            <td>{{ belegnummer }}</td>
+            <td data-order="{{intBetrag}}">{{ hausBetrag }} {{ hausWaehrung }}</td>
+            <td>{{ werk }}</td>
+            <td>{{ material }}</td>
+            <td>{{ buchungsdatum }}</td>
+
+        </tr>
+    {{/transactions}}
+    </tbody>
+
+
+</table>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#outstandingBills').DataTable({
+            "language": {
+                "url": "../../../js/de_DE.json"
+            }
+        });
+} );
+</script>
