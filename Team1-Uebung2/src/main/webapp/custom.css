@@ -1,0 +1,23 @@
+nav ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: white !important;
+}
+nav ::-moz-placeholder { /* Firefox 19+ */
+    color: white !important;
+}
+nav :-ms-input-placeholder { /* IE 10+ */
+    color: white !important;
+}
+nav :-moz-placeholder { /* Firefox 18- */
+    color: white !important;
+}
+
+nav .form-control {
+    color: white !important;
+}
+
+table.sortable th.text-right:after {
+    left: 5px !important;
+}
+table.sortable th.text-right span.sign {
+    left: 5px !important;
+}

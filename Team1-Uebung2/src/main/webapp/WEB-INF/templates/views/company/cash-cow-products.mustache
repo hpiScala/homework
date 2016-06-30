@@ -1,0 +1,99 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h3>Cash cow products
+      {{#startDate}}
+        {{#endDate}}
+          between {{startDate}} and {{endDate}}
+        {{/endDate}}
+        {{^endDate}}
+          after {{startDate}}
+        {{/endDate}}
+      {{/startDate}}
+      {{^startDate}}
+        {{#endDate}}
+          until {{endDate}}
+        {{/endDate}}
+        {{^endDate}}
+          {{! Nothing}}
+        {{/endDate}}
+      {{/startDate}}
+    </h3>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-lg-7">
+    <div class="table-responsive">
+      <table class="sortable table table-striped">
+        <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th class="text-right">Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#cashCowProducts}}
+          <tr>
+            {{#_1}}
+              <td>{{id}}</td>
+              <td>{{name}}</td>
+            {{/_1}}
+            <td class="text-right" data-value="{{#_2}}{{amountAsString}}{{/_2}}">{{_2}}</td>
+          </tr>
+        {{/cashCowProducts}}
+        {{^cashCowProducts}}
+          <tr class="danger">
+            <td colspan="3" class="text-center danger">
+              <strong>We did not sell anything. We will be unemployed soon :(</strong>
+            </td>
+          </tr>
+        {{/cashCowProducts}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-5">
+    <div class="embed-responsive embed-responsive-16by9">
+      <div id="sales_chart" class="embed-responsive-item"></div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  google.charts.setOnLoadCallback(drawSalesChart);
+
+  function drawSalesChart() {
+    var rawData = [
+      ['Product', 'Sales volume', {role: 'style'}, {role: 'annotation'}],
+      {{#cashCowProducts}}
+        ['{{#_1}}{{name}}{{/_1}}', {{#_2}}{{amountAsString}}{{/_2}}, '#F0AB00', '{{#_1}}{{id}}{{/_1}}'],
+      {{/cashCowProducts}}
+    ];
+    if (rawData.length == 1) {
+      // No data to draw a diagram of.
+      return;
+    }
+    var data = google.visualization.arrayToDataTable(rawData);
+
+    var options = {
+      title: 'Cash cows',
+      chartArea: {width: '50%'},
+      vAxis: {
+        title: 'Sales volume',
+        minValue: 0
+      },
+      hAxis: {
+        title: 'Product'
+      },
+      orientation: 'horizontal',
+      animation: {
+        startup: true,
+        duration: 1000,
+        easing: 'out'
+      }
+    };
+
+    var chart = new google.visualization.BarChart(document.getElementById('sales_chart'));
+
+    chart.draw(data, options);
+  }
+</script>
