@@ -1,0 +1,243 @@
+{{#customer}}
+<div class="row">
+    <div class="col-lg-7 col-md-6 col-sm-7">
+        <h2>{{name}}<small> &raquo;&nbsp;{{customerId}}</small></h2>
+        <address>
+            <i class="fa fa-home fa-fw" aria-hidden="true"></i> {{street}}<br/>
+            <i class="fa fa-map-marker fa-fw" aria-hidden="true"></i> {{zip}} {{town}}<br/>
+            <i class="fa fa-globe fa-fw" aria-hidden="true"></i> {{country}}{{#region}} - {{.}}{{/region}}
+        </address>
+        <dl class="dl-horizontal">
+            {{#business}}
+                <dt>Business</dt><dd>{{ . }}</dd>
+            {{/business}}
+            {{#group}}
+                <dt>Customer group</dt><dd>{{ . }}</dd>
+            {{/group}}
+            <dt>Average payment time</dt><dd>{{averagePaymentTime}} <strong>working</strong> days</dd>
+        </dl>
+    </div>
+    <div class="col-lg-5 col-md-6 col-sm-5">
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe frameborder="0" style="border:0" class="embed-responsive-item"
+                src="https://www.google.com/maps/embed/v1/place?q={{street}},{{town}},{{country}}&key=AIzaSyCQ_CBTJwSgHKe4IyFf6BxoiEDKh75T76I" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+{{/customer}}
+<div class="row">
+  <div class="col-sm-6">
+    <h3>Sales</h3>
+    <div class="embed-responsive embed-responsive-16by9">
+      <div id="sales_chart" class="embed-responsive-item"></div>
+    </div>
+    <div class="table-responsive">
+      <table class="sortable table table-striped">
+        <thead>
+        <tr>
+          <th>Year</th>
+          <th class="text-right">Sales</th>
+          <th class="text-right">Profit</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#sales}}
+          <tr>
+            <td>{{_1}}</td>
+            <td class="text-right" data-value="{{#_2}}{{amountAsString}}{{/_2}}">{{_2}}</td>
+            <td class="text-right" data-value="{{#_3}}{{amountAsString}}{{/_3}}">{{_3}}</td>
+          </tr>
+        {{/sales}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <h3>Sales Contributions</h3>
+    <div class="embed-responsive embed-responsive-16by9">
+      <div id="piechart" class="embed-responsive-item"></div>
+    </div>
+    <div class="table-responsive">
+      <table class="sortable table table-striped">
+        <thead>
+        <tr>
+          <th>Product-ID</th>
+          <th>Product</th>
+          <th>Percentage</th>
+          <th class="text-right">Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#sales_contributions}}
+          <tr>
+            {{#_1}}
+              <td>{{id}}</td>
+              <td>{{name}}</td>
+            {{/_1}}
+            <td>{{_2}} %</td>
+            <td class="text-right" data-value="{{#_3}}{{amountAsString}}{{/_3}}">{{_3}}</td>
+          </tr>
+        {{/sales_contributions}}
+        {{^sales_contributions}}
+          <tr>
+            <td colspan="4" class="text-center danger">No data available!</td>
+          </tr>
+        {{/sales_contributions}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active">
+        <a href="#recent-orders" role="tab" data-toggle="tab">Recent orders</a>
+      </li>
+      <li role="presentation">
+        <a href="#outstanding-orders" role="tab" data-toggle="tab">Outstanding orders until {{outstanding_orders_date}}</a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="recent-orders">
+        <div class="table-responsive">
+          <table class="sortable table table-striped">
+            <thead>
+            <tr>
+              <th>Date</th>
+              <th>Reference number</th>
+              <th>Quantity</th>
+              <th>Product</th>
+              <th>Factory</th>
+              <th class="text-right">Amount (House)</th>
+              <th class="text-right">Amount (Transaction)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#orders}}
+              <tr>
+                <td>{{bookingDate}}</td>
+                <td>{{referenceNumber}}</td>
+                <td>{{quantity}}</td>
+                <td>
+                  {{#product}}
+                    <abbr title="{{id}}">{{name}}</abbr>
+                  {{/product}}
+                </td>
+                <td>
+                  {{#factory}}
+                    <abbr title="{{address}}">{{name}}</abbr>
+                  {{/factory}}
+                </td>
+                <td class="text-right" data-value="{{#houseMoney}}{{amountAsString}}{{/houseMoney}}">{{houseMoney}}</td>
+                <td class="text-right" data-value="{{#transactionMoney}}{{amountAsString}}{{/transactionMoney}}">{{transactionMoney}}</td>
+              </tr>
+            {{/orders}}
+            {{^orders}}
+              <tr>
+                <td colspan="7" class="text-center">
+                  <strong>No orders for this customer. Start selling now!</strong>
+                </td>
+              </tr>
+            {{/orders}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="outstanding-orders">
+        <div class="table-responsive">
+          <table class="sortable table table-striped">
+            <thead>
+            <tr>
+              <th>Date</th>
+              <th>Reference number</th>
+              <th>Quantity</th>
+              <th>Product</th>
+              <th>Factory</th>
+              <th class="text-right">Amount (House)</th>
+              <th class="text-right">Amount (Transaction)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#outstanding_orders}}
+              <tr class="danger">
+                <td>{{bookingDate}}</td>
+                <td>{{referenceNumber}}</td>
+                <td>{{quantity}}</td>
+                <td>
+                  {{#product}}
+                    <abbr title="{{id}}">{{name}}</abbr>
+                  {{/product}}
+                </td>
+                <td>
+                  {{#factory}}
+                    <abbr title="{{address}}">{{name}}</abbr>
+                  {{/factory}}
+                </td>
+                <td class="text-right" data-value="{{#houseMoney}}{{amountAsString}}{{/houseMoney}}">{{houseMoney}}</td>
+                <td class="text-right" data-value="{{#transactionMoney}}{{amountAsString}}{{/transactionMoney}}">{{transactionMoney}}</td>
+              </tr>
+            {{/outstanding_orders}}
+            {{^outstanding_orders}}
+              <tr class="success">
+                <td colspan="7" class="text-center">
+                  <strong>This customer does not have outstanding orders!</strong>
+                </td>
+              </tr>
+            {{/outstanding_orders}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var sales = [
+          {{#sales}}
+              ["{{_1}}", {{#_2}}{{amountAsString}}{{/_2}}, {{#_3}}{{amountAsString}}{{/_3}}],
+          {{/sales}}
+          ['Year', 'Sales', 'Profit']
+        ];
+        var data = google.visualization.arrayToDataTable(sales.reverse());
+
+        var options = {
+          title: 'Sales',
+          curveType: 'none',
+          legend: { position: 'bottom' },
+          animation: {
+            startup: true,
+            duration: 1000,
+            easing: 'out'
+          }
+        };
+        var chart = new google.visualization.LineChart(document.getElementById('sales_chart'));
+        chart.draw(data, options);
+
+        var contributions_data = [
+          {{#sales_contributions}}
+            [{{#_1}}"{{name}}"{{/_1}}, parseFloat("{{_2}}".replace(',', '.'))],
+          {{/sales_contributions}}
+          ['Product', 'Sales contributions']
+        ];
+        var data_pie = google.visualization.arrayToDataTable(contributions_data.reverse());
+
+        var options_pie = {
+          title: 'Sales Contributions',
+          legend: { position: 'bottom' },
+          animation: {
+            startup: true,
+            duration: 1000,
+            easing: 'out'
+          }
+        };
+
+        var chart_pie = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart_pie.draw(data_pie, options_pie);
+
+    }
+</script>
